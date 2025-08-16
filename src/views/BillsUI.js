@@ -53,6 +53,7 @@ export default ({ data: bills, loading, error }) => {
   }
 
   return (`
+  
     <div class='layout'>
       ${VerticalLayout(120)}
       <div class='content'>

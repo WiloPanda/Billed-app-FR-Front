@@ -170,6 +170,7 @@ export default class {
           return bills
         })
         .catch(error => {
+          this.onNavigate(ROUTES_PATH.ErrorPage, error.message);
           throw error;
         })
     }

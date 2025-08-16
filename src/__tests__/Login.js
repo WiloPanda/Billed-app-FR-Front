@@ -115,6 +115,48 @@ describe("Given that I am a user on login page", () => {
       expect(screen.getAllByText("Mes notes de frais")).toBeTruthy();
     });
   });
+
+  describe("When I call login()", () => {
+    test("Then it should call store.login and set jwt in localStorage", async () => {
+      const jwt = "fake-jwt-token";
+
+      const mockStore = {
+        login: jest.fn(() => Promise.resolve({ jwt })),
+      };
+
+      Object.defineProperty(window, "localStorage", {
+        value: {
+          setItem: jest.fn(),
+        },
+        writable: true,
+      });
+
+      document.body.innerHTML = `
+        <form data-testid="form-employee"></form>
+        <form data-testid="form-admin"></form>
+      `;
+
+      const loginInstance = new Login({
+        document,
+        localStorage: window.localStorage,
+        onNavigate: jest.fn(),
+        PREVIOUS_LOCATION: "",
+        store: mockStore,
+      });
+
+      await loginInstance.login({
+        email: "test@example.com",
+        password: "test",
+      });
+
+      expect(mockStore.login).toHaveBeenCalledWith(JSON.stringify({
+        email: "test@example.com",
+        password: "test",
+      }));
+
+      expect(window.localStorage.setItem).toHaveBeenCalledWith("jwt", jwt);
+    });
+  });
 });
 
 describe("Given that I am a user on login page", () => {

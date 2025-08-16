@@ -11,6 +11,7 @@ export default (error) => {
         <div data-testid="error-message">
           ${error ? error : ""}
         </div>
+      </div>
     </div>`
   )
 }

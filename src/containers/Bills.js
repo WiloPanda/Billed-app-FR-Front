@@ -57,6 +57,11 @@ export default class {
           console.log('length', bills.length)
           return bills
         })
+        .catch(error => {
+          console.log(error)
+          this.onNavigate(ROUTES_PATH['ErrorPage'], error.message)
+          throw error
+        })
     }
   }
 }
